@@ -299,7 +299,7 @@ $query = mysqli_query($conn, "
                 <div class="modal-body">Silahkan Klik "Logout" Untuk Keluar Dan Mengakhiri Sesion.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../../auth/logout.php">Logout</a>
+                    <a class="btn btn-primary" href="../auth/logout.php">Logout</a>
 
                 </div>
             </div>
