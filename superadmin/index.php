@@ -179,7 +179,7 @@ while ($row = mysqli_fetch_assoc($queryChart)) {
                 <a class="nav-link collapsed" href="jadwalpiket/index.php">
                     <i class="fas fa-user-shield"></i>
 
-                    <span>Petugas</span>
+                    <span>Jadwal Piket</span>
                 </a>
             </li>
 
@@ -346,10 +346,6 @@ while ($row = mysqli_fetch_assoc($queryChart)) {
                     </div>
 
 
-
-
-
-
                     <!-- Content Row -->
                     <div class="row">
 
@@ -484,7 +480,7 @@ while ($row = mysqli_fetch_assoc($queryChart)) {
                 <div class="modal-body">Silahkan Klik "Logout" Untuk Keluar Dan Mengakhiri Sesion.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../../auth/logout.php">Logout</a>
+                    <a class="btn btn-primary" href="../auth/logout.php">Logout</a>
 
                 </div>
             </div>

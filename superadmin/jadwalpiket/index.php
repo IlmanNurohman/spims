@@ -106,7 +106,7 @@ $query = mysqli_query($conn, "
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="../indexkelas.php">
                     <i class="fas fa-layer-group"></i>
 
                     <span>Kelas</span>
@@ -114,7 +114,7 @@ $query = mysqli_query($conn, "
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="../indexguru.php">
                     <i class="fas fa-user-graduate"></i>
 
                     <span>Guru</span>
@@ -122,7 +122,7 @@ $query = mysqli_query($conn, "
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="jadwalpiket/index.php">
                     <i class="fas fa-user-shield"></i>
 
                     <span>Jadwal Piket</span>
@@ -130,7 +130,7 @@ $query = mysqli_query($conn, "
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="../users/index.php">
                     <i class="fas fa-users"></i>
 
                     <span>Users</span>

@@ -118,15 +118,15 @@ $kelas = mysqli_query($conn, "
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="jadwalpiket/index.php">
                     <i class="fas fa-user-shield"></i>
 
-                    <span>Petugas</span>
+                    <span>Jadwal Piket</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="users/index.php">
                     <i class="fas fa-users"></i>
 
                     <span>Users</span>
