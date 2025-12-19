@@ -248,7 +248,7 @@ $query = mysqli_query($conn, "
                                                             data-target="#modalEdit<?= $row['id'] ?>">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        <a href="hapus.php?hapus=<?= $row['id'] ?>"
+                                                        <a href="hapus_kelas.php?hapus=<?= $row['id'] ?>"
                                                             class="btn btn-sm btn-danger"
                                                             onclick="return confirm('Yakin ingin menghapus kelas ini?')">
                                                             <i class="fas fa-trash"></i>
