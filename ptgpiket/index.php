@@ -11,7 +11,7 @@ $query = mysqli_query($conn, "
     JOIN siswa ON izin.siswa_id = siswa.id
     JOIN kelas ON siswa.kelas_id = kelas.id
     WHERE izin.status = 'menunggu'
-    ORDER BY izin.waktu_pengajuan ASC
+    ORDER BY izin.waktu_pengajuan DESC
 ");
 ?>
 
@@ -27,7 +27,7 @@ $query = mysqli_query($conn, "
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Spims</title>
 
     <!-- Custom fonts for this template-->
     <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -152,8 +152,8 @@ $query = mysqli_query($conn, "
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Petugas Piket</span>
+                                <i class="fas fa-user fa-sm fa-fw"></i>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -245,7 +245,8 @@ $query = mysqli_query($conn, "
                                                             data-id="<?= $row['id'] ?>"
                                                             data-nama="<?= htmlspecialchars($row['nama']) ?>"
                                                             data-jenis="<?= htmlspecialchars($row['jenis_izin']) ?>"
-                                                            data-keterangan="<?= htmlspecialchars($row['keterangan']) ?>">
+                                                            data-keterangan="<?= htmlspecialchars($row['keterangan']) ?>"
+                                                            data-foto="<?= $row['foto'] ?>">
                                                             Validasi
                                                         </button>
 
@@ -346,6 +347,17 @@ $query = mysqli_query($conn, "
                                     <th>Keterangan</th>
                                     <td>: <span id="modalKeterangan"></span></td>
                                 </tr>
+                                <tr>
+                                    <th>Foto</th>
+                                    <td>:
+                                        <button type="button" id="btnLihatFoto" class="btn btn-sm btn-info"
+                                            data-toggle="modal" data-target="#modalFoto" style="display:none;">
+                                            Lihat Foto
+                                        </button>
+                                        <span id="noFoto" class="text-muted">Tidak ada foto</span>
+                                    </td>
+                                </tr>
+
                             </table>
 
                             <input type="hidden" name="id" id="modalId">
@@ -381,6 +393,26 @@ $query = mysqli_query($conn, "
         </div>
     </div>
 
+    <div class="modal fade" id="modalFoto" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Foto Bukti Izin</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body text-center">
+                    <img id="fotoIzin" src="" class="img-fluid rounded" alt="Foto izin">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -413,7 +445,8 @@ $query = mysqli_query($conn, "
             id: $(this).data('id'),
             nama: $(this).data('nama'),
             jenis: $(this).data('jenis'),
-            keterangan: $(this).data('keterangan')
+            keterangan: $(this).data('keterangan'),
+            foto: $(this).data('foto')
         };
 
         $('#modalValidasi').modal('show');
@@ -424,6 +457,16 @@ $query = mysqli_query($conn, "
         $('#modalNama').text(currentData.nama);
         $('#modalJenis').text(currentData.jenis);
         $('#modalKeterangan').text(currentData.keterangan);
+
+        if (currentData.foto) {
+            $('#btnLihatFoto').show();
+            $('#noFoto').hide();
+            $('#fotoIzin').attr('src', '../uploads/izin/' + currentData.foto);
+        } else {
+            $('#btnLihatFoto').hide();
+            $('#noFoto').show();
+            $('#fotoIzin').attr('src', '');
+        }
     });
     </script>
 

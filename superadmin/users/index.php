@@ -23,7 +23,7 @@ $query = mysqli_query($conn, "SELECT * FROM users ORDER BY created_at DESC");
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Spims</title>
 
     <!-- Custom fonts for this template-->
     <link href="../../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -64,10 +64,12 @@ $query = mysqli_query($conn, "SELECT * FROM users ORDER BY created_at DESC");
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                <div class="sidebar-brand-icon">
+                    <img src="../../assets/img/logoizin.png" alt="Logo"
+                        style="width:40px; height:40px; object-fit:contain;">
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+
+                <div class="sidebar-brand-text">SPIMS <br> MAN 1 GARUT</div>
             </a>
 
             <!-- Divider -->
@@ -90,7 +92,7 @@ $query = mysqli_query($conn, "SELECT * FROM users ORDER BY created_at DESC");
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="../indexkelas.php">
                     <i class="fas fa-layer-group"></i>
 
                     <span>Kelas</span>
@@ -98,7 +100,7 @@ $query = mysqli_query($conn, "SELECT * FROM users ORDER BY created_at DESC");
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="../indexguru.php">
                     <i class="fas fa-user-graduate"></i>
 
                     <span>Guru</span>
@@ -106,15 +108,15 @@ $query = mysqli_query($conn, "SELECT * FROM users ORDER BY created_at DESC");
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="../jadwalpiket/index.php">
                     <i class="fas fa-user-shield"></i>
 
-                    <span>Petugas</span>
+                    <span>Jadwal Piket</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="../useers/index.php">
                     <i class="fas fa-users"></i>
 
                     <span>Users</span>
@@ -161,8 +163,9 @@ $query = mysqli_query($conn, "SELECT * FROM users ORDER BY created_at DESC");
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <!--<img class="img-profile rounded-circle" src="img/undraw_profile.svg">-->
+                                <i class="fas fa-user fa-sm fa-fw"></i>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -202,6 +205,13 @@ $query = mysqli_query($conn, "SELECT * FROM users ORDER BY created_at DESC");
                         Pengajuan izin berhasil dikirim.
                     </div>
                     <?php endif; ?>
+
+                    <?php if (isset($_GET['status']) && $_GET['status'] == 'used'): ?>
+                    <div class="alert alert-danger">
+                        User tidak bisa dihapus karena masih terdaftar sebagai siswa.
+                    </div>
+                    <?php endif; ?>
+
                     <a href="#" class="btn btn-primary mt-3 mb-3" data-toggle="modal" data-target="#modalIzin">
                         <i class="fas fa-plus-circle"></i> Tambah Users Baru
                     </a>
@@ -248,15 +258,86 @@ $query = mysqli_query($conn, "SELECT * FROM users ORDER BY created_at DESC");
                                                     </td>
                                                     <td><?= date('d-m-Y H:i', strtotime($u['created_at'])) ?></td>
                                                     <td>
-                                                        <a href="edit.php?id=<?= $u['id'] ?>"
-                                                            class="btn btn-warning btn-sm">Edit</a>
+
+                                                        <button class="btn btn-sm btn-warning" data-toggle="modal"
+                                                            data-target="#modalEdit<?= $u['id'] ?>">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+
                                                         <a href="proses.php?hapus=<?= $u['id'] ?>"
-                                                            onclick="return confirm('Yakin hapus akun ini?')"
-                                                            class="btn btn-danger btn-sm">Hapus</a>
+                                                            class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Yakin ingin menghapus kelas ini?')">
+                                                            <i class="fas fa-trash"></i>
+
                                                     </td>
                                                 </tr>
+
                                                 <?php } ?>
                                             </tbody>
+                                            <?php
+mysqli_data_seek($query, 0);
+while ($u = mysqli_fetch_assoc($query)) {
+?>
+                                            <div class="modal fade" id="modalEdit<?= $u['id'] ?>" tabindex="-1"
+                                                role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered"
+                                                    role="document">
+                                                    <div class="modal-content">
+
+                                                        <form action="proses.php" method="post">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Edit Akun Pengguna</h5>
+                                                                <button type="button" class="close"
+                                                                    data-dismiss="modal">
+                                                                    <span>&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="modal-body">
+                                                                <input type="hidden" name="id" value="<?= $u['id'] ?>">
+
+                                                                <div class="form-group">
+                                                                    <label>Username</label>
+                                                                    <input type="text" name="username"
+                                                                        class="form-control"
+                                                                        value="<?= htmlspecialchars($u['username']) ?>"
+                                                                        required>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label>Password <small class="text-muted">(kosongkan
+                                                                            jika tidak diubah)</small></label>
+                                                                    <input type="password" name="password"
+                                                                        class="form-control">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label>Role</label>
+                                                                    <select name="role" class="form-control" required>
+                                                                        <?php
+                            $roles = ['siswa','piket','wali','admin'];
+                            foreach ($roles as $r) {
+                                $selected = ($u['role'] === $r) ? 'selected' : '';
+                                echo "<option value=\"$r\" $selected>".ucfirst($r)."</option>";
+                            }
+                            ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Batal</button>
+                                                                <button type="submit" name="edit"
+                                                                    class="btn btn-primary">Update</button>
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <?php } ?>
+
 
                                         </table>
                                     </div>

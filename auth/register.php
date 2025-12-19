@@ -16,7 +16,7 @@ require '../config/config.php';
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Register</title>
+    <title>Register</title>
 
     <!-- Custom fonts for this template-->
     <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -26,6 +26,15 @@ require '../config/config.php';
 
     <!-- Custom styles for this template-->
     <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+    .select-user {
+        border-radius: 20rem;
+        height: calc(1.5em + 1.75rem + 2px);
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+        color: #6e707e;
+    }
+    </style>
 
 </head>
 
@@ -63,7 +72,7 @@ require '../config/config.php';
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <label class="form-label">Kelas</label>
 
-                                        <select name="kelas_id" required class="form-control form-control-user">
+                                        <select name="kelas_id" required class="form-control select-user">
                                             <option value="">Pilih Kelas</option>
                                             <?php
         $kelas = mysqli_query($conn, "SELECT * FROM kelas");

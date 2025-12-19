@@ -4,8 +4,10 @@ require '../config/config.php';
 $query = mysqli_query($conn, "
     SELECT kelas.id, kelas.nama_kelas
     FROM kelas
-    ORDER BY kelas.nama_kelas ASC
+    ORDER BY kelas.nama_kelas DESC
 ");
+
+
 ?>
 
 
@@ -21,7 +23,7 @@ $query = mysqli_query($conn, "
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Spims</title>
 
     <!-- Custom fonts for this template-->
     <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -98,7 +100,7 @@ $query = mysqli_query($conn, "
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="indexguru.php">
                     <i class="fas fa-user-graduate"></i>
 
                     <span>Guru</span>
@@ -106,15 +108,15 @@ $query = mysqli_query($conn, "
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="jadwalpiket/index.php">
                     <i class="fas fa-user-shield"></i>
 
-                    <span>Petugas</span>
+                    <span>Jadwal Piket</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.php">
+                <a class="nav-link collapsed" href="users/index.php">
                     <i class="fas fa-users"></i>
 
                     <span>Users</span>
@@ -161,8 +163,8 @@ $query = mysqli_query($conn, "
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <i class="fas fa-user fa-sm fa-fw"></i>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -217,7 +219,7 @@ $query = mysqli_query($conn, "
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Riwayat Pengajuan</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Daftar Kelas</h6>
                                 </div>
 
 
@@ -242,13 +244,56 @@ $query = mysqli_query($conn, "
                                                     <td><?= $no++ ?></td>
                                                     <td><?= $row['nama_kelas'] ?? '-' ?></td>
                                                     <td>
-                                                        <a href="edit.php?id=<?= $row['id'] ?>"
-                                                            class="btn btn-warning btn-sm">Edit</a>
-                                                        <a href="proses.php?hapus=<?= $row['id'] ?>"
-                                                            onclick="return confirm('Yakin hapus guru ini?')"
-                                                            class="btn btn-danger btn-sm">Hapus</a>
+                                                        <button class="btn btn-sm btn-warning" data-toggle="modal"
+                                                            data-target="#modalEdit<?= $row['id'] ?>">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <a href="hapus.php?hapus=<?= $row['id'] ?>"
+                                                            class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Yakin ingin menghapus kelas ini?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
                                                     </td>
                                                 </tr>
+
+                                                <div class="modal fade" id="modalEdit<?= $row['id'] ?>" tabindex="-1">
+                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                        <div class="modal-content">
+
+                                                            <form action="edit_kelas.php" method="post">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Edit Kelas</h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal">&times;</button>
+                                                                </div>
+
+                                                                <div class="modal-body">
+                                                                    <input type="hidden" name="id"
+                                                                        value="<?= $row['id'] ?>">
+
+                                                                    <div class="form-group">
+                                                                        <label>Nama Kelas</label>
+                                                                        <input type="text" name="nama_kelas"
+                                                                            class="form-control"
+                                                                            value="<?= htmlspecialchars($row['nama_kelas']) ?>"
+                                                                            required>
+                                                                    </div>
+
+
+
+                                                                </div>
+
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Batal</button>
+                                                                    <button type="submit" name="update"
+                                                                        class="btn btn-primary">Update</button>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <?php } ?>
 
                                             </tbody>

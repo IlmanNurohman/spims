@@ -86,7 +86,7 @@ while ($row = mysqli_fetch_assoc($queryChart)) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Spims</title>
 
     <!-- Custom fonts for this template-->
     <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -179,7 +179,7 @@ while ($row = mysqli_fetch_assoc($queryChart)) {
                 <a class="nav-link collapsed" href="jadwalpiket/index.php">
                     <i class="fas fa-user-shield"></i>
 
-                    <span>Petugas</span>
+                    <span>Jadwal Piket</span>
                 </a>
             </li>
 
@@ -231,8 +231,8 @@ while ($row = mysqli_fetch_assoc($queryChart)) {
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <i class="fas fa-user fa-sm fa-fw"></i>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -344,10 +344,6 @@ while ($row = mysqli_fetch_assoc($queryChart)) {
                         </div>
 
                     </div>
-
-
-
-
 
 
                     <!-- Content Row -->
@@ -484,7 +480,7 @@ while ($row = mysqli_fetch_assoc($queryChart)) {
                 <div class="modal-body">Silahkan Klik "Logout" Untuk Keluar Dan Mengakhiri Sesion.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../../auth/logout.php">Logout</a>
+                    <a class="btn btn-primary" href="../auth/logout.php">Logout</a>
 
                 </div>
             </div>
