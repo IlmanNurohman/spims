@@ -80,10 +80,12 @@ $query = mysqli_query($conn, "
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                <div class="sidebar-brand-icon">
+                    <img src="../../assets/img/logoizin.png" alt="Logo"
+                        style="width:40px; height:40px; object-fit:contain;">
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+
+                <div class="sidebar-brand-text">SPIMS <br> MAN 1 GARUT</div>
             </a>
 
             <!-- Divider -->
@@ -177,8 +179,8 @@ $query = mysqli_query($conn, "
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <i class="fas fa-user fa-sm fa-fw"></i>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

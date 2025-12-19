@@ -1,18 +1,22 @@
 <?php
 require '../config/config.php';
 
-$query = mysqli_query($conn, "
-    SELECT guru.id, guru.nama_guru, kelas.nama_kelas
+$queryGuru = mysqli_query($conn, "
+    SELECT guru.id, guru.nama_guru, guru.kelas_id, kelas.nama_kelas
     FROM guru
     LEFT JOIN kelas ON guru.kelas_id = kelas.id
     ORDER BY guru.nama_guru ASC
 ");
 
-$kelas = mysqli_query($conn, "
+$queryKelas = mysqli_query($conn, "
     SELECT id, nama_kelas
     FROM kelas
     ORDER BY nama_kelas ASC
 ");
+
+
+
+$kelas = mysqli_query($conn, "SELECT * FROM kelas");
 
 ?>
 
@@ -173,8 +177,8 @@ $kelas = mysqli_query($conn, "
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <i class="fas fa-user fa-sm fa-fw"></i>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -247,19 +251,76 @@ $kelas = mysqli_query($conn, "
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php $no = 1; while ($row = mysqli_fetch_assoc($query)) { ?>
+                                                <?php $no = 1; while ($row = mysqli_fetch_assoc($queryGuru)) { ?>
+
                                                 <tr>
                                                     <td><?= $no++ ?></td>
                                                     <td><?= htmlspecialchars($row['nama_guru']) ?></td>
                                                     <td><?= $row['nama_kelas'] ?? '-' ?></td>
                                                     <td>
-                                                        <a href="edit.php?id=<?= $row['id'] ?>"
-                                                            class="btn btn-warning btn-sm">Edit</a>
+                                                        <button class="btn btn-sm btn-warning" data-toggle="modal"
+                                                            data-target="#modalEdit<?= $row['id'] ?>">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+
+
                                                         <a href="proses.php?hapus=<?= $row['id'] ?>"
-                                                            onclick="return confirm('Yakin hapus guru ini?')"
-                                                            class="btn btn-danger btn-sm">Hapus</a>
+                                                            class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Yakin ingin menghapus data guru ini?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
                                                     </td>
                                                 </tr>
+
+                                                <div class="modal fade" id="modalEdit<?= $row['id'] ?>" tabindex="-1">
+                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                        <div class="modal-content">
+
+                                                            <form action="proses.php" method="post">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Edit Guru</h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal">&times;</button>
+                                                                </div>
+
+                                                                <div class="modal-body">
+                                                                    <input type="hidden" name="id"
+                                                                        value="<?= $row['id'] ?>">
+
+                                                                    <div class="form-group">
+                                                                        <label>Nama Guru</label>
+                                                                        <input type="text" name="nama_guru"
+                                                                            value="<?= htmlspecialchars($row['nama_guru']) ?>"
+                                                                            class="form-control" required>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label>Kelas</label>
+                                                                        <select name="kelas_id" class="form-control">
+                                                                            <option value="">-- Pilih Kelas --</option>
+                                                                            <?php mysqli_data_seek($queryKelas, 0); ?>
+                                                                            <?php while ($k = mysqli_fetch_assoc($queryKelas)) { ?>
+                                                                            <option value="<?= $k['id'] ?>"
+                                                                                <?= $row['kelas_id'] == $k['id'] ? 'selected' : '' ?>>
+                                                                                <?= $k['nama_kelas'] ?>
+                                                                            </option>
+                                                                            <?php } ?>
+
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Batal</button>
+                                                                    <button type="submit" name="edit"
+                                                                        class="btn btn-primary">Update</button>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <?php } ?>
                                             </tbody>
                                         </table>
