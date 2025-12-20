@@ -252,15 +252,22 @@ $query = mysqli_query($conn, "
                                                     </td>
                                                     <td>
                                                         <?php
-                    if ($row['status'] == 'menunggu') {
-                        echo '<span class="badge bg-warning text-dark">Menunggu</span>';
-                    } elseif ($row['status'] == 'disetujui') {
-                        echo '<span class="badge bg-success">Disetujui</span>';
-                    } else {
-                        echo '<span class="badge bg-danger">Ditolak</span>';
-                    }
-                    ?>
+    if ($row['status'] == 'menunggu') {
+        echo '<button class="btn btn-warning btn-sm" disabled>
+                Menunggu
+              </button>';
+    } elseif ($row['status'] == 'disetujui') {
+        echo '<button class="btn btn-primary btn-sm" disabled>
+                Disetujui
+              </button>';
+    } else {
+        echo '<button class="btn btn-danger btn-sm" disabled>
+                Ditolak
+              </button>';
+    }
+    ?>
                                                     </td>
+
                                                     <td><?= $row['catatan'] ? htmlspecialchars($row['catatan']) : '-' ?>
                                                     </td>
                                                     <td>
@@ -278,29 +285,45 @@ $query = mysqli_query($conn, "
                                                     <td>
                                                         <?php if ($row['status'] === 'disetujui'): ?>
 
-                                                        <?php if (is_null($row['waktu_keluar'])): ?>
-                                                        <!-- CHECKOUT -->
-                                                        <form action=" checkout.php" method="post">
-                                                            <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                                            <button class="btn btn-warning btn-sm">Checkout</button>
-                                                        </form>
+                                                        <div class="d-flex flex-column gap-1">
 
-                                                        <?php elseif (is_null($row['waktu_masuk'])): ?>
-                                                        <!-- CHECKIN -->
-                                                        <form action="checkin.php" method="post">
-                                                            <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                                            <button class="btn btn-primary btn-sm">Checkin</button>
-                                                        </form>
+                                                            <?php if (is_null($row['waktu_keluar'])): ?>
+                                                            <form action="checkout.php" method="post">
+                                                                <input type="hidden" name="id"
+                                                                    value="<?= $row['id'] ?>">
+                                                                <button
+                                                                    class="btn btn-warning btn-sm btn-block">Checkout</button>
+                                                            </form>
 
-                                                        <?php else: ?>
-                                                        <!-- VALID -->
-                                                        <span class="badge bg-success">Valid</span>
-                                                        <?php endif; ?>
+                                                            <?php elseif (is_null($row['waktu_masuk'])): ?>
+                                                            <form action="checkin.php" method="post">
+                                                                <input type="hidden" name="id"
+                                                                    value="<?= $row['id'] ?>">
+                                                                <button
+                                                                    class="btn btn-primary btn-sm btn-block">Checkin</button>
+                                                            </form>
+
+                                                            <?php else: ?>
+                                                            <button class="btn btn-primary btn-sm ">Valid
+                                                            </button>
+
+                                                            <?php endif; ?>
+
+                                                            <!-- TOMBOL QR -->
+                                                            <button class="btn btn-success btn-sm btn-block btn-qr"
+                                                                data-id="<?= $row['id'] ?>" data-toggle="modal"
+                                                                data-target="#qrModal">
+                                                                <i class="fas fa-qrcode"></i> QR Code
+                                                            </button>
+
+
+                                                        </div>
 
                                                         <?php else: ?>
                                                         -
                                                         <?php endif; ?>
                                                     </td>
+
 
 
                                                 </tr>
@@ -433,6 +456,36 @@ $query = mysqli_query($conn, "
             </div>
         </div>
     </div>
+    <!-- Modal QR -->
+    <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-qrcode"></i> QR Code Izin
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body text-center">
+                    <img id="qrImage" src="" alt="QR Code" class="img-fluid mb-3">
+                    <p class="text-muted small">
+                        Scan QR untuk melihat detail izin siswa
+                    </p>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Tutup
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 
     <!-- Bootstrap core JavaScript-->
@@ -458,6 +511,26 @@ $query = mysqli_query($conn, "
 
     <!-- Page level custom scripts -->
     <script src="../assets/js/demo/datatables-demo.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const BASE_URL = 'https://270e60647bf3.ngrok-free.app';
+
+        document.querySelectorAll('.btn-qr').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+
+                const url = `${BASE_URL}/sistem_ijin/siswa/detail_izin.php?id=${id}`;
+                const qrUrl =
+                    `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}`;
+
+                document.getElementById('qrImage').src = qrUrl;
+            });
+        });
+
+    });
+    </script>
+
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {

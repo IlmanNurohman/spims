@@ -5,6 +5,17 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'piket') {
     die('Akses ditolak');
 }
 
+$user_id = $_SESSION['user_id']; 
+
+$cekPiket = mysqli_query($conn, "
+    SELECT id 
+    FROM jadwal_piket
+    WHERE user_id = '$user_id'
+    AND tanggal_piket = CURDATE()
+");
+
+$petugasAktif = mysqli_num_rows($cekPiket) > 0;
+
 $query = mysqli_query($conn, "
     SELECT izin.*, siswa.nama, kelas.nama_kelas
     FROM izin
@@ -240,6 +251,7 @@ $query = mysqli_query($conn, "
                                                     <td><?= date('d-m-Y H:i', strtotime($row['waktu_pengajuan'])) ?>
                                                     </td>
                                                     <td>
+                                                        <?php if ($petugasAktif): ?>
                                                         <button type="button"
                                                             class="btn btn-sm btn-primary btn-validasi"
                                                             data-id="<?= $row['id'] ?>"
@@ -249,11 +261,11 @@ $query = mysqli_query($conn, "
                                                             data-foto="<?= $row['foto'] ?>">
                                                             Validasi
                                                         </button>
-
-
-
-
+                                                        <?php else: ?>
+                                                        <span class="badge badge-secondary">Tidak Bertugas</span>
+                                                        <?php endif; ?>
                                                     </td>
+
                                                 </tr>
                                                 <?php endwhile;
                                                 else: ?>
