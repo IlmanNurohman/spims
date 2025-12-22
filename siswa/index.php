@@ -514,13 +514,15 @@ $query = mysqli_query($conn, "
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const BASE_URL = 'https://270e60647bf3.ngrok-free.app';
 
         document.querySelectorAll('.btn-qr').forEach(button => {
             button.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
 
-                const url = `${BASE_URL}/sistem_ijin/siswa/detail_izin.php?id=${id}`;
+                // URL detail izin (VALID)
+                const url = `http://localhost/sistem_ijin/siswa/detail_izin.php?id=${id}`;
+
+                // URL QR API (VALID)
                 const qrUrl =
                     `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}`;
 
